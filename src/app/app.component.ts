@@ -30,7 +30,10 @@ export class AppComponent implements OnInit, AfterViewInit {
         default: 'arcade',
         arcade: {
           debug: true,
-          fps: 120
+          fps: 120,
+          gravity: {
+            y: 200
+          }
         }
       },
       render: {

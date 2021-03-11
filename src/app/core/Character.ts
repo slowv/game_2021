@@ -1,10 +1,8 @@
-import {Scene} from 'phaser';
-
 export class Character extends Phaser.Physics.Arcade.Sprite {
+  private _speed: number = 128;
   constructor(scene: Phaser.Scene, x: number, y: number, texture: string, frame?: string | number) {
     super(scene, x, y, texture, frame);
     this.setDepth(2);
-    this.setScale(.3);
     this.setVisible(true);
     scene.physics.world.enableBody(this);
     this.setCollideWorldBounds(true);
@@ -19,4 +17,9 @@ export class Character extends Phaser.Physics.Arcade.Sprite {
     super.preUpdate(time, delta);
   }
 
+
+  get speed(): number {
+    return this._speed;
+  }
 }
+

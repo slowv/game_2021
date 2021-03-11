@@ -24,6 +24,8 @@ export class Level1 extends Phaser.Scene {
     // CHARACTER
     this.makeCharacter();
 
+    this.makeCamera();
+
     // MAP
     this.makeMap();
 
@@ -32,6 +34,7 @@ export class Level1 extends Phaser.Scene {
 
     // POINTER
     this.self.pointer = this.input.activePointer;
+
   }
 
   update(time: number, delta: number): void {
@@ -40,7 +43,6 @@ export class Level1 extends Phaser.Scene {
 
   makeCamera(): void {
     this.self.cameraMain = this.cameras.main;
-    this.cameraMain.setZoom(1);
     this.self.cameraMain.startFollow(this.self.character);
     this.self.cameraMain.setBounds(CST.CAMERA.MAIN.BOUNDS.x, CST.CAMERA.MAIN.BOUNDS.y, CST.CAMERA.MAIN.BOUNDS.width, CST.CAMERA.MAIN.BOUNDS.height);
     // this.miniCam = this.cameras.add(667, 208,
@@ -51,7 +53,8 @@ export class Level1 extends Phaser.Scene {
 
   makeCharacter() {
     // Visualize an individual path
-    this.character = new Character(this, 100, 100, 'ninja_girl_idle').play('NG_idle', true);
+    this.character = new Character(this, 100, 100, 'ninja_girl_idle').play('NG_idle', true).setScale(.2);
+    console.log(this.character.anims.currentAnim.key);
   }
 
   makeMap() {
@@ -61,11 +64,12 @@ export class Level1 extends Phaser.Scene {
 
     // Create Layer
     this.tileMap.createLayer(CST.TILE_MAP.LEVEL_1.LAYER.GROUND, [terrain], 0, 0)
-      .setDepth(0)
-      .setScale(.5);
+      .setDepth(-2)
+      .setScale(.4);
 
     const topLayer = this.tileMap.createLayer(CST.TILE_MAP.LEVEL_1.LAYER.TOP, [terrain], 0, 0)
-      .setDepth(1).setScale(.5);
+      .setDepth(-1)
+      .setScale(.4);
 
     // Set collisions for top layer
     topLayer.setCollisionByProperty({
@@ -73,11 +77,11 @@ export class Level1 extends Phaser.Scene {
     });
     this.physics.add.collider(this.character, topLayer);
     topLayer.setCollision(this.getCollisionIndex());
-    // this.renderDebug(topLayer);
+    this.renderDebug(topLayer);
   }
 
   makeUIHud() {
-    this.textFPS = new TextHUD(this, 1500, -355, '0 fps', {
+    this.textFPS = new TextHUD(this, 0, 0, '0 fps', {
       fontSize: '30px',
       fontFamily: 'Monospace',
       color: '#ffffff',
